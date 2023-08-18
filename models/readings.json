@@ -1,0 +1,35 @@
+{
+  "file": "./models/readings.json",
+  "readings": [
+    {
+      "time": "Fri Aug 18 2023 11:12:33 GMT+0000 (Coordinated Universal Time)",
+      "code": 100,
+      "temperature": 1,
+      "windSpeed": 1,
+      "windDirection": 1,
+      "pressure": 1000,
+      "_id": "3e22cd3b-ec62-4353-a70a-ea4696f0d80a",
+      "stationid": "c4989af1-c188-4c37-b925-f3cc434fb43b"
+    },
+    {
+      "time": "Fri Aug 18 2023 13:32:01 GMT+0000 (Coordinated Universal Time)",
+      "code": 100,
+      "temperature": 1,
+      "windSpeed": 1,
+      "windDirection": 1,
+      "pressure": 1000,
+      "_id": "6c8c35c1-70d3-40dd-a585-7440afe5c118",
+      "stationid": "089a0fea-7f3c-48f7-bde5-1d9b1e78f5e9"
+    },
+    {
+      "time": "Fri Aug 18 2023 15:27:47 GMT+0000 (Coordinated Universal Time)",
+      "code": 700,
+      "temperature": 7,
+      "windSpeed": 7,
+      "windDirection": 7,
+      "pressure": 1007,
+      "_id": "1882e38a-cf36-40f0-9fec-d65d3c3254f8",
+      "stationid": "089a0fea-7f3c-48f7-bde5-1d9b1e78f5e9"
+    }
+  ]
+}

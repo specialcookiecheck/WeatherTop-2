@@ -1,0 +1,13 @@
+{
+  "file": "./models/stations.json",
+  "stations": [
+    {
+      "location": "Dundalk",
+      "latitude": "54",
+      "longitude": "-6.3",
+      "mapSrc": "https://maps.google.com/maps?q=54, -6.3&z=10&output=embed",
+      "userid": "d7b8f3fc-9a33-46e3-86ca-f603d5d0333a",
+      "_id": "089a0fea-7f3c-48f7-bde5-1d9b1e78f5e9"
+    }
+  ]
+}

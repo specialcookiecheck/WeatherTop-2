@@ -1,0 +1,53 @@
+<td>
+    <div class="box subtitle is-6 has-text-centered">
+        <i class="{{weatherIcon}} is-size-1"></i><br><br>
+        {{weather}}
+    </div>
+</td>
+<td>
+    <div class="box subtitle is-6">
+        <p>
+            {{lastReading.temperature}} Celsius (C) <br>
+            {{fahrenheitTemp}} Fahrenheit
+        </p>
+        <p>
+            Minimum: ${_station.minTemp} (C) <br>
+            Maximum: ${_station.maxTemp} (C)
+        </p>
+        <p>
+            Trending <i class="${_station.outputTempTrend()}"></i>
+        </p>
+    </div>
+</td>
+<td>
+    <div class="box subtitle is-6">
+        <p>
+            {{beaufortSpeed}} bft<br>
+            <i class="fas fa-compass"></i> {{windCompass}}
+        </p>
+        <p>
+            Feels like: {{formattedRealFeel}} (C)
+        </p>
+        <p>
+            Minimum: ${_station.minWind} (km/h) <br>
+            Maximum: ${_station.maxWind} (km/h)
+        </p>
+        <p>
+            Trending <i class="${_station.outputWindTrend()}"></i>
+        </p>
+    </div>
+</td>
+<td>
+    <div class="box subtitle is-6">
+        <p>
+            {{lastReading.pressure}} hPa
+        </p>
+        <p>
+            Minimum: ${_station.minPressure} (hPa) <br>
+            Maximum: ${_station.maxPressure} (hPa)
+        </p>
+        <p>
+            Trending <i class="${_station.outputPressureTrend()}"></i>
+        </p>
+    </div>
+</td>
