@@ -1,11 +1,26 @@
 import { stationStore } from "../models/station-store.js";
 import { readingStore } from "../models/reading-store.js";
 
-let readings = stationStore.getAllStations();
+let readings;
+let lastReading;
 
 let name;
 let latitude;
 let longitude;
+
+let date;
+let code;
+let temperature;
+let fahrenheitTemp;
+let windSpeed;
+let windDirection;
+let beaufortSpeed;
+let windCompass;
+let windChillIndex;
+let formattedRealFeel;
+let pressure;
+let weather;
+let weatherIcon;
 
 let minTemp;
 let maxTemp;
@@ -18,30 +33,75 @@ let tempTrend;
 let windTrend;
 let pressureTrend;
 
+let tempTrendOutput;
+let windTrendOutput;
+let pressureTrendOutput;
+
 let mapSrc;
 
 export const stationAnalytics = {
-  /*
-  getShortestTrack(station) {
-    let shortestTrack = null;
-    if (playlist.tracks.length > 0) {
-      shortestTrack = playlist.tracks[0];
-      for (let i = 1; i < playlist.tracks.length; i++) {
-        if (playlist.tracks[i].duration < shortestTrack.duration) {
-          shortestTrack = playlist.tracks[i];
-        }
-      }
-    }
-    return shortestTrack;
-  },
-  */
   
-  // returns the last Reading for a Station (and creates a placeholder Reading if no Readings exist)
-    getLastReading(readings) {
-      console.log("Getting last reading");
-        let lastReading;
-        if (readings.length > 0) {
-            lastReading = readings[readings.length - 1];
+  async updateStation(station) {
+    console.log("station " + station + " update in progress");
+    await stationAnalytics.setData(station);
+    const stationUpdate = {
+      lastCode: code,
+      lastTemperature: temperature,
+      lastFahrenheitTemp: fahrenheitTemp,
+      lastWindSpeed: windSpeed,
+      lastWindDirection: windDirection,
+      lastBeaufortSpeed: beaufortSpeed,
+      lastWindCompass: windCompass,
+      lastWindChillIndex: windChillIndex,
+      lastFormattedRealFeel: formattedRealFeel,
+      lastPressure: pressure,
+      lastWeather: weather,
+      lastWeatherIcon: weatherIcon,
+      minTemp: minTemp,
+      maxTemp: maxTemp,
+      minWind: minWind,
+      maxWind: maxWind,
+      minPressure: minPressure,
+      maxPressure: maxPressure,
+      tempTrend: tempTrend,
+      windTrend: windTrend,
+      pressureTrend: pressureTrend,
+      tempTrendOutput: tempTrendOutput,
+      windTrendOutput: windTrendOutput,
+      pressureTrendOutput: pressureTrendOutput,
+    }
+    console.log("temperature update:" + stationUpdate.lastTemperature)
+    console.log("maxTemp update:" + stationUpdate.maxTemp)
+    return stationUpdate;
+  },
+  
+  async setData(station) {
+    //await stationAnalytics.setReadings(station);
+    await stationAnalytics.setLastReading(station);
+    await stationAnalytics.setLastData(lastReading);
+    await stationAnalytics.setStationMinMax(station);
+    await stationAnalytics.setTrends(station);
+    await stationAnalytics.setTrendOutputs(station);
+    console.log("Data has been set");
+  },
+  
+  // returns the last Reading for a Station
+    async setReadings(station) {
+      console.log("Setting readings for station " + station);
+      readings = await readingStore.getReadingsByStationId(station);
+      console.log("Readings received: " + readings);
+    },
+  
+    getCurrentReadings() {
+      console.log("Returning current readings: " + readings);
+      return readings;
+    },
+  
+    setLastReading(station) {
+      console.log("Setting last reading");
+        if (station.readings.length > 0) {
+          //console.log("Setting last reading");
+          lastReading = station.readings[station.readings.length - 1];
           console.log("Last Reading ID: " + lastReading._id); 
           console.log("Last Reading Code: " + lastReading.code);
           console.log("Last Reading Temp: " + lastReading.temperature);
@@ -49,77 +109,286 @@ export const stationAnalytics = {
           console.log("Last Reading WindDir: " + lastReading.windDirection);
           console.log("Last Reading Press: " + lastReading.pressure);
         } else {
-            //lastReading = new Reading(); // generates an empty reading to act as a placeholder
+          // generates an empty reading to act as a placeholder
           console.log("No reading found")
+          lastReading = {
+            code: "no valid reading entered",
+            temperature: 0,
+            windSpeed: 0,
+            windDirection: 0,
+            pressure:0,
+          }
         }
-      console.log("Returning last reading")
-        return lastReading;
+    },
+  
+    getLastReading(station) {
+      console.log("Getting last reading");
+      stationAnalytics.setLastReading(station);
+      console.log("Returning last reading");
+      return lastReading;
+    },
+  
+  setLastData(lastReading) {
+    code = lastReading.code;
+    temperature = lastReading.temperature;
+    windSpeed = lastReading.windSpeed;
+    windDirection = lastReading.windDirection;
+    pressure = lastReading.pressure;
+    stationAnalytics.setFahrenheitTemp();
+    stationAnalytics.setWeather();
+    stationAnalytics.setBeaufortSpeed();
+    stationAnalytics.setWindCompass();
+    stationAnalytics.setWindChillIndex();
+    stationAnalytics.setRealFeel();
+  },
+  
+  // sets weather condition & icon
+    setWeather() {
+      console.log("setting weather");
+        if (code == 100) {
+            weather = "Clear";
+            weatherIcon = "fa fa-sun";
+        } else if (code == 200) {
+            weather = "Partial Clouds";
+            weatherIcon = "fa fa-cloud-sun";
+        } else if (code == 300) {
+            weather = "Cloudy";
+            weatherIcon = "fa fa-cloud";
+        } else if (code == 400) {
+            weather = "Light Showers";
+            weatherIcon = "fa fa-cloud-sun-rain";
+        } else if (code == 500) {
+            weather = "Heavy Showers";
+            weatherIcon = "fa fa-cloud-showers-heavy";
+        } else if (code == 600) {
+            weather = "Rain";
+            weatherIcon = "fa fa-cloud-rain";
+        } else if (code == 700) {
+            weather = "Snow";
+            weatherIcon = "fa fa-snowflake";
+        } else if (code == 800) {
+            weather = "Thunder";
+            weatherIcon = "fa fa-bolt";
+        } else {
+            weather = "No valid reading entered";
+            weatherIcon = "";
+        }
+    },
+
+    // converts Celsius to Fahrenheit
+    setFahrenheitTemp() {
+        fahrenheitTemp = (Math.round((temperature * 9 / 5 + 32) * 100)) / 100;
+    },
+
+    // formats all data values in database to suitable String format for outputting
+  /*
+    getDateTimeFormatted() {
+        if (date.charAt(0) == 'I') {
+            let newstring = date.substring(8, date.length() - 5);
+            const datetime = LocalDateTime.parse(newstring);
+            newstring = datetime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            return newstring;
+        } else {
+            const datetime = LocalDateTime.parse(date);
+            let newstring = datetime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            return newstring;
+        }
+    }, */
+
+    // getter for weather condition
+    getWeather(code) {
+      console.log("getting weather");
+      stationAnalytics.setWeather(code);
+      console.log("Weather: " + weather + ", " + weatherIcon);
+        return weather;
+    },
+
+    // getter for weather icons
+    getWeatherIcon() {
+        return weatherIcon;
+    },
+
+    // getter for Beaufort wind scale
+    setBeaufortSpeed() {
+        if (windSpeed < 1) {
+            beaufortSpeed = "Calm: 0";
+        } else if (windSpeed >= 1 && windSpeed < 6) {
+            beaufortSpeed = "Light Air: 1";
+        } else if (windSpeed >= 6 && windSpeed < 12) {
+            beaufortSpeed = "Light Breeze: 2";
+        } else if (windSpeed >= 12 && windSpeed < 20) {
+            beaufortSpeed = "Gentle Breeze: 3";
+        } else if (windSpeed >= 20 && windSpeed < 29) {
+            beaufortSpeed = "Moderate Breeze: 4";
+        } else if (windSpeed >= 29 && windSpeed < 39) {
+            beaufortSpeed = "Fresh Breeze: 5";
+        } else if (windSpeed >= 39 && windSpeed < 50) {
+            beaufortSpeed = "Strong Breeze: 6";
+        } else if (windSpeed >= 50 && windSpeed < 62) {
+            beaufortSpeed = "Near Gale: 7";
+        } else if (windSpeed >= 62 && windSpeed < 75) {
+            beaufortSpeed = "Gale: 8";
+        } else if (windSpeed >= 75 && windSpeed < 89) {
+            beaufortSpeed = "Severe Gale: 9";
+        } else if (windSpeed >= 89 && windSpeed < 103) {
+            beaufortSpeed = "Strong Storm: 10";
+        } else if (windSpeed >= 103 && windSpeed < 118) {
+            beaufortSpeed = "Violent Storm: 11";
+        } else {
+            beaufortSpeed = "Hurricane: 12";
+        }
+    },
+
+    // getter for wind compass direction
+    setWindCompass() {
+        if (windDirection < 0) {
+            windCompass = "Invalid direction";
+        } else if (windDirection < 11.25) {
+            windCompass = "North";
+        } else if (windDirection < 33.75) {
+            windCompass = "North North East";
+        } else if (windDirection < 56.25) {
+            windCompass = "North East";
+        } else if (windDirection < 78.75) {
+            windCompass = "East North East";
+        } else if (windDirection < 101.25) {
+            windCompass = "East";
+        } else if (windDirection < 123.75) {
+            windCompass = "East South East";
+        } else if (windDirection < 146.25) {
+            windCompass = "South East";
+        } else if (windDirection < 168.75) {
+            windCompass = "South South East";
+        } else if (windDirection < 191.25) {
+            windCompass = "South";
+        } else if (windDirection < 213.75) {
+            windCompass = "South South West";
+        } else if (windDirection < 236.25) {
+            windCompass = "South West";
+        } else if (windDirection < 258.75) {
+            windCompass = "West South West";
+        } else if (windDirection < 281.25) {
+            windCompass = "West";
+        } else if (windDirection < 303.75) {
+            windCompass = "West North West";
+        } else if (windDirection < 326.25) {
+            windCompass = "North West";
+        } else if (windDirection < 348.75) {
+            windCompass = "North North West";
+        } else if (windDirection <= 360) {
+            windCompass = "North";
+        } else {
+            windCompass = "Invalid direction";
+        }
+    },
+
+    // getter for windchill index
+    setWindChillIndex() {
+        windChillIndex = 13.12 + (0.6215 * temperature) - (11.37 * Math.pow(windSpeed, 0.16)) + (0.3965 * temperature * Math.pow(windSpeed, 0.16));
+    },
+
+    // getter for real feel
+    setRealFeel() {
+        formattedRealFeel = windChillIndex;
+    },
+
+    // updates the minimum and maximum values for the station (station parameter)
+    updateStationMinMax(station) {
+        if (station.minPressure == 0) {
+            station.setStationMinMax();
+        }
+        if (station.minWind > windSpeed) {
+            station.minWind = windSpeed;
+        }
+        if (station.maxWind < windSpeed) {
+            station.maxWind = windSpeed;
+        }
+        if (station.minTemp > temperature) {
+            station.minTemp = temperature;
+        }
+        if (station.maxTemp < temperature) {
+            station.maxTemp = temperature;
+        }
+        if (station.minPressure > pressure) {
+            station.minPressure = pressure;
+        }
+        if (station.maxPressure < pressure) {
+            station.maxPressure = pressure;
+        }
     },
 
     // sets the min and max weather values for a Station, and clears them if all readings have been deleted
-    setStationMinMax() {
+    setStationMinMax(station) {
         console.log("Setting StationMinMax");
-        let minTemp = 0;
-        let maxTemp = 0;
-        let minWind = 0;
-        let maxWind = 0;
-        let minPressure = 0;
-        let maxPressure = 0;
+      
+        minTemp = 0;
+        maxTemp = 0;
+        minWind = 0;
+        maxWind = 0;
+        minPressure = 0;
+        maxPressure = 0;
 
-        if (readings.size() > 0) {
-            for (let i = 0; i < readings.size(); i++) {
-                console.log("Reading" + i + readings.get(i));
+        if (station.readings.length > 0) {
+            for (let i = 0; i < station.readings.length; i++) {
+                console.log("Reading" + i + station.readings[i]);
 
-                console.log("Reading Temp: " + readings.get(i).temperature);
+                console.log("Reading Temp: " + station.readings[i].temperature);
                 console.log("Current minTemp: " + minTemp);
-                if (minTemp > readings.get(i).temperature || minTemp == 0) {
-                    minTemp = readings.get(i).temperature;
+                if (minTemp > station.readings[i].temperature || minTemp == 0) {
+                    minTemp = station.readings[i].temperature;
                 }
                 console.log("Current maxTemp: " + maxTemp);
-                if (maxTemp < readings.get(i).temperature) {
-                    maxTemp = readings.get(i).temperature;
+                if (maxTemp < station.readings[i].temperature) {
+                    maxTemp = station.readings[i].temperature;
                 }
 
-                console.log("Reading WindSpeed: " + readings.get(i).windSpeed);
+                console.log("Reading WindSpeed: " + station.readings[i].windSpeed);
                 console.log("Current minWind: " + minWind);
-                if (minWind > readings.get(i).windSpeed || minWind == 0) {
-                    minWind = readings.get(i).windSpeed;
+                if (minWind > station.readings[i].windSpeed || minWind === 0) {
+                    minWind = station.readings[i].windSpeed;
                 }
                 console.log("Current maxWind: " + maxWind);
-                if (maxWind < readings.get(i).windSpeed) {
-                    maxWind = readings.get(i).windSpeed;
+                if (maxWind < station.readings[i].windSpeed) {
+                    maxWind = station.readings[i].windSpeed;
                 }
 
-                console.log("Reading Pressure: " + readings.get(i).pressure);
+                console.log("Reading Pressure: " + station.readings[i].pressure);
                 console.log("Current minPressure: " + minPressure);
-                if (minPressure > readings.get(i).pressure || minPressure == 0) {
-                    minPressure = readings.get(i).pressure;
+                if (minPressure > station.readings[i].pressure || minPressure == 0) {
+                    minPressure = station.readings[i].pressure;
                 }
                 console.log("Current maxPressure: " + maxPressure);
-                if (maxPressure < readings.get(i).pressure) {
-                    maxPressure = readings.get(i).pressure;
+                if (maxPressure < station.readings[i].pressure) {
+                    maxPressure = station.readings[i].pressure;
                 }
             }
         }
     },
+  
+    getStationMinMax(station) {
+      stationAnalytics.setStationMinMax(station);
+      return { minTemp, maxTemp, minWind, maxWind, minPressure, maxPressure };
+    },
 
     // activates setters for all trends
-    setTrends() {
-        if (readings.size() > 2) {
+    setTrends(station) {
+      console.log("Checking for trends");
+      console.log("Readings: " + station.readings.length);
+        if (station.readings.length > 2) {
             console.log("Setting trends");
-            setTempTrend();
-            setWindTrend();
-            setPressureTrend();
+            stationAnalytics.setTempTrend(station);
+            stationAnalytics.setWindTrend(station);
+            stationAnalytics.setPressureTrend(station);
         }
     },
 
     // calculates and sets the temperature trend
-    setTempTrend() {
+    setTempTrend(station) {
         console.log("Setting temp trend");
 
-        let currentReading = readings.get(readings.size() - 1);
-        let previousReading = readings.get(readings.size() - 2);
-        let twoToLastReading = readings.get(readings.size() - 3);
+        let currentReading = station.readings[station.readings.length - 1];
+        let previousReading = station.readings[station.readings.length - 2];
+        let twoToLastReading = station.readings[station.readings.length - 3];
 
         let currentTemp = currentReading.temperature;
         let previousTemp = previousReading.temperature;
@@ -135,12 +404,12 @@ export const stationAnalytics = {
     },
 
     // calculates and sets the wind trend
-    setWindTrend() {
+    setWindTrend(station) {
         console.log("Setting wind trend");
 
-        let currentReading = readings.get(readings.size() - 1);
-        let previousReading = readings.get(readings.size() - 2);
-        let twoToLastReading = readings.get(readings.size() - 3);
+        let currentReading = station.readings[station.readings.length - 1];
+        let previousReading = station.readings[station.readings.length - 2];
+        let twoToLastReading = station.readings[station.readings.length - 3];
 
         let currentWind = currentReading.windSpeed;
         let previousWind = previousReading.windSpeed;
@@ -158,14 +427,20 @@ export const stationAnalytics = {
             windTrend = "Neutral";
         }
     },
+  
+  setTrendOutputs(station) {
+    stationAnalytics.setTempTrendOutput(station);
+    stationAnalytics.setWindTrendOutput(station);
+    stationAnalytics.setPressureTrendOutput(station);
+  },
 
     // calculates and sets the pressure trend
-    setPressureTrend() {
+    setPressureTrend(station) {
         console.log("Setting pressure trend");
 
-        let currentReading = readings.get(readings.size() - 1);
-        let previousReading = readings.get(readings.size() - 2);
-        let twoToLastReading = readings.get(readings.size() - 3);
+        let currentReading = station.readings[station.readings.length - 1];
+        let previousReading = station.readings[station.readings.length - 2];
+        let twoToLastReading = station.readings[station.readings.length - 3];
 
         let currentPressure = currentReading.pressure;
         let previousPressure = previousReading.pressure;
@@ -181,52 +456,52 @@ export const stationAnalytics = {
     },
 
     // returns trend icon class for temperature trend
-    outputTempTrend() {
-        if (readings.size() > 2) {
-            if (tempTrend.equals("Up")) {
-                return "fas fa-arrow-trend-up has-text-danger";
-            } else if (tempTrend.equals("Down")) {
-                return "fas fa-arrow-trend-down has-text-info";
+    setTempTrendOutput(station) {
+        if (station.readings.length > 2) {
+            if (tempTrend === "Up") {
+                tempTrendOutput = "fas fa-arrow-trend-up has-text-danger";
+            } else if (tempTrend === "Down") {
+                tempTrendOutput = "fas fa-arrow-trend-down has-text-info";
             } else {
-                return "fas fa-grip-lines";
+                tempTrendOutput = "fas fa-grip-lines";
             }
         } else {
-            return "fas fa-grip-lines";
+            tempTrendOutput = "fas fa-grip-lines";
         }
     },
 
     // returns trend icon class for wind trend
-    outputWindTrend() {
-        if (readings.size() > 2) {
-            if (windTrend.equals("Up")) {
-                return "fas fa-arrow-trend-up has-text-black-bis";
-            } else if (windTrend.equals("Down")) {
-                return "fas fa-arrow-trend-down has-text-grey-light";
+    setWindTrendOutput(station) {
+        if (station.readings.length > 2) {
+            if (windTrend === "Up") {
+                windTrendOutput = "fas fa-arrow-trend-up has-text-black-bis";
+            } else if (windTrend === "Down") {
+                windTrendOutput = "fas fa-arrow-trend-down has-text-grey-light";
             } else {
-                return "fas fa-grip-lines";
+                windTrendOutput = "fas fa-grip-lines";
             }
         } else {
-            return "fas fa-grip-lines";
+            windTrendOutput = "fas fa-grip-lines";
         }
     },
 
     // returns trend icon class for pressure trend
-    outputPressureTrend() {
-        if (readings.size() > 2) {
-            if (pressureTrend.equals("Up")) {
-                return "fas fa-arrow-trend-up has-text-danger";
-            } else if (pressureTrend.equals("Down")) {
-                return "fas fa-arrow-trend-down has-text-info";
+    setPressureTrendOutput(station) {
+        if (station.readings.length > 2) {
+            if (pressureTrend === "Up") {
+                pressureTrendOutput = "fas fa-arrow-trend-up has-text-danger";
+            } else if (pressureTrend === "Down") {
+                pressureTrendOutput = "fas fa-arrow-trend-down has-text-info";
             } else {
-                return "fas fa-grip-lines";
+                pressureTrendOutput = "fas fa-grip-lines";
             }
         } else {
-            return "fas fa-grip-lines";
+            pressureTrendOutput = "fas fa-grip-lines";
         }
     },
 
     // sets the map src if none is present
-    getMapSrc(latitude, longitude) {
+    setMapSrc(latitude, longitude) {
         if (mapSrc == null) {
             mapSrc = "https://maps.google.com/maps?q=" + latitude + ", " + longitude + "&z=10" + "&output=embed";
         }

@@ -2,34 +2,44 @@
   "file": "./models/readings.json",
   "readings": [
     {
-      "time": "Fri Aug 18 2023 11:12:33 GMT+0000 (Coordinated Universal Time)",
+      "time": "Sat Aug 19 2023 17:37:30 GMT+0000 (Coordinated Universal Time)",
       "code": 100,
       "temperature": 1,
       "windSpeed": 1,
       "windDirection": 1,
       "pressure": 1000,
-      "_id": "3e22cd3b-ec62-4353-a70a-ea4696f0d80a",
-      "stationid": "c4989af1-c188-4c37-b925-f3cc434fb43b"
+      "_id": "e6c20c81-589f-4c18-ab78-dc3a1f9ecfe0",
+      "stationid": "794b89a9-3a0f-4075-8b11-59338f684d26"
     },
     {
-      "time": "Fri Aug 18 2023 13:32:01 GMT+0000 (Coordinated Universal Time)",
+      "time": "Sat Aug 19 2023 18:09:43 GMT+0000 (Coordinated Universal Time)",
       "code": 100,
       "temperature": 1,
       "windSpeed": 1,
       "windDirection": 1,
       "pressure": 1000,
-      "_id": "6c8c35c1-70d3-40dd-a585-7440afe5c118",
-      "stationid": "089a0fea-7f3c-48f7-bde5-1d9b1e78f5e9"
+      "_id": "38531008-8254-4b76-b45a-b703d3edfe46",
+      "stationid": "28922a55-ed77-45e7-abd7-107de4334fd0"
     },
     {
-      "time": "Fri Aug 18 2023 15:27:47 GMT+0000 (Coordinated Universal Time)",
-      "code": 700,
-      "temperature": 7,
-      "windSpeed": 7,
-      "windDirection": 7,
-      "pressure": 1007,
-      "_id": "1882e38a-cf36-40f0-9fec-d65d3c3254f8",
-      "stationid": "089a0fea-7f3c-48f7-bde5-1d9b1e78f5e9"
+      "time": "Sat Aug 19 2023 18:09:59 GMT+0000 (Coordinated Universal Time)",
+      "code": 400,
+      "temperature": 4,
+      "windSpeed": 4,
+      "windDirection": 4,
+      "pressure": 1004,
+      "_id": "77469df0-7bb2-4303-b109-852b4cd41297",
+      "stationid": "28922a55-ed77-45e7-abd7-107de4334fd0"
+    },
+    {
+      "time": "Sat Aug 19 2023 18:10:08 GMT+0000 (Coordinated Universal Time)",
+      "code": 600,
+      "temperature": 6,
+      "windSpeed": 6,
+      "windDirection": 6,
+      "pressure": 1006,
+      "_id": "59252c92-6eb1-4623-8621-a8476069daaf",
+      "stationid": "28922a55-ed77-45e7-abd7-107de4334fd0"
     }
   ]
 }

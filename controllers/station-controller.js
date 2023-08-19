@@ -2,6 +2,8 @@ import { stationStore } from "../models/station-store.js";
 import { readingStore } from "../models/reading-store.js";
 import { stationAnalytics } from "../utils/station-analytics.js";
 
+let lastReading;
+/*
 let date;
 let code;
 let temperature;
@@ -15,19 +17,25 @@ let formattedRealFeel;
 let pressure;
 let weather;
 let weatherIcon;
+*/
 
 export const stationController = {
   async index(request, response) {
     const station = await stationStore.getStationById(request.params.id);
     //const shortestTrack = stationAnalytics.getShortestTrack(station);
-    console.log("Readings: " + station.readings);
-    let lastReading = stationAnalytics.getLastReading(station.readings);
+    console.log("Station Readings for station " + station._id + ": " + station.readings);
+    console.log("Readings set: " + station.readings);
+    //lastReading = await stationAnalytics.getLastReading(station);
+    /*
     stationController.setLastData(lastReading);
-    // weather = stationController.getWeather(lastReading.code);
+    stationAnalytics.setTrends();
+    */
+    await stationStore.updateStation(await stationStore.getStationById(station._id));
     const viewData = {
-      title: "Station",
+      title: station.location,
       station: station,
-      lastReading: lastReading,
+      //lastReading: lastReading,
+      /*
       weather: weather,
       weatherIcon: weatherIcon,
       fahrenheitTemp: fahrenheitTemp,
@@ -35,7 +43,12 @@ export const stationController = {
       windCompass: windCompass,
       windChillIndex: windChillIndex,
       formattedRealFeel: formattedRealFeel,
+      tempTrendOutput: stationAnalytics.getTempTrendOutput(station),
+      windTrendOutput: stationAnalytics.getWindTrendOutput(station),
+      pressureTrendOutput: stationAnalytics.getPressureTrendOutput(station),
+      stationMinMax: stationAnalytics.getStationMinMax(station),
       //shortestTrack: shortestTrack,
+      */
     };
     response.render("station-view", viewData);
   },
@@ -52,6 +65,7 @@ export const stationController = {
     };
     console.log(`adding reading with code: ${newReading.code}`);
     await readingStore.addReading(station._id, newReading);
+    await stationStore.updateStation(station);
     response.redirect("/station/" + station._id);
   },
 
@@ -60,9 +74,12 @@ export const stationController = {
     const readingId = request.params.readingid;
     console.log(`Deleting Reading ${readingId} from Station ${stationId}`);
     await readingStore.deleteReading(readingId);
+    console.log(`Updating station ${stationId}`);
+    await stationStore.updateStation(await stationStore.getStationById(stationId));
     response.redirect("/station/" + stationId);
   },
   
+  /*
   setLastData(lastReading) {
     code = lastReading.code;
     temperature = lastReading.temperature;
@@ -128,7 +145,7 @@ export const stationController = {
             let newstring = datetime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             return newstring;
         }
-    }, */
+    }, 
 
     // getter for weather condition
     getWeather(code) {
@@ -250,5 +267,5 @@ export const stationController = {
         if (station.maxPressure < pressure) {
             station.maxPressure = pressure;
         }
-    },
+    }, */
 };

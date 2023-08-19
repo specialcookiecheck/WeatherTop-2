@@ -1,53 +1,53 @@
 <td>
     <div class="box subtitle is-6 has-text-centered">
-        <i class="{{weatherIcon}} is-size-1"></i><br><br>
-        {{weather}}
+        <i class="{{station.lastWeatherIcon}} is-size-1"></i><br><br>
+        {{station.lastWeather}}
     </div>
 </td>
 <td>
     <div class="box subtitle is-6">
         <p>
-            {{lastReading.temperature}} Celsius (C) <br>
-            {{fahrenheitTemp}} Fahrenheit
+            {{station.lastTemperature}} Celsius (C) <br>
+            {{station.lastFahrenheitTemp}} Fahrenheit
         </p>
         <p>
-            Minimum: ${_station.minTemp} (C) <br>
-            Maximum: ${_station.maxTemp} (C)
+            Minimum: {{station.minTemp}} (C) <br>
+            Maximum: {{station.maxTemp}} (C)
         </p>
         <p>
-            Trending <i class="${_station.outputTempTrend()}"></i>
-        </p>
-    </div>
-</td>
-<td>
-    <div class="box subtitle is-6">
-        <p>
-            {{beaufortSpeed}} bft<br>
-            <i class="fas fa-compass"></i> {{windCompass}}
-        </p>
-        <p>
-            Feels like: {{formattedRealFeel}} (C)
-        </p>
-        <p>
-            Minimum: ${_station.minWind} (km/h) <br>
-            Maximum: ${_station.maxWind} (km/h)
-        </p>
-        <p>
-            Trending <i class="${_station.outputWindTrend()}"></i>
+            Trending <i class="{{station.tempTrendOutput}}"></i>
         </p>
     </div>
 </td>
 <td>
     <div class="box subtitle is-6">
         <p>
-            {{lastReading.pressure}} hPa
+            {{station.lastBeaufortSpeed}} bft<br>
+            <i class="fas fa-compass"></i> {{station.lastWindCompass}}
         </p>
         <p>
-            Minimum: ${_station.minPressure} (hPa) <br>
-            Maximum: ${_station.maxPressure} (hPa)
+            Feels like: {{station.lastFormattedRealFeel}} (C)
         </p>
         <p>
-            Trending <i class="${_station.outputPressureTrend()}"></i>
+            Minimum: {{station.minWind}} (km/h) <br>
+            Maximum: {{station.maxWind}} (km/h)
+        </p>
+        <p>
+            Trending <i class="{{station.windTrendOutput}}"></i>
+        </p>
+    </div>
+</td>
+<td>
+    <div class="box subtitle is-6">
+        <p>
+            {{station.lastPressure}} hPa
+        </p>
+        <p>
+            Minimum: {{station.minPressure}} (hPa) <br>
+            Maximum: {{station.maxPressure}} (hPa)
+        </p>
+        <p>
+            Trending <i class="{{station.pressureTrendOutput}}"></i>
         </p>
     </div>
 </td>

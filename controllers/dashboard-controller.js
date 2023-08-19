@@ -1,6 +1,7 @@
 import { stationStore } from "../models/station-store.js";
 import { accountsController } from "./accounts-controller.js";
 import { stationAnalytics } from "../utils/station-analytics.js";
+import { readingStore } from "../models/reading-store.js";
 
 
 export const dashboardController = {
@@ -22,8 +23,31 @@ export const dashboardController = {
       location: request.body.location,
       latitude: latitude,
       longitude: longitude,
-      mapSrc: stationAnalytics.getMapSrc(latitude, longitude),
+      mapSrc: stationAnalytics.setMapSrc(latitude, longitude),
       userid: loggedInUser._id,
+      lastWeather: "",
+      lastWeatherIcon: "",
+      lastTemperature: "",
+      minTemp:"",
+      maxTemp: "",
+      lastWindSpeed: "",
+      minWind: "",
+      maxWind: "",
+      lastWindDirection: "",
+      lastPressure: "",
+      minPressure: "",
+      maxPressure: "",
+      tempTrend: "",
+      windTrend: "",
+      pressureTrend: "",
+      fahrenheitTemp: "",
+      lastBeaufortSpeed: "",
+      lastWindCompass: "",
+      lastWindChillIndex: "",
+      lastFormattedRealFeel: "",
+      tempTrendOutput: "",
+      windTrendOutput: "",
+      pressureTrendOutput: "",
     };
     console.log(`adding station ${newStation.location}`);
     await stationStore.addStation(newStation);
@@ -32,6 +56,7 @@ export const dashboardController = {
 
   async deleteStation(request, response) {
     const stationId = request.params.id;
+    //readingStore.deleteAllReadingsFromStation(stationStore.getStationById(stationId));
     console.log(`Deleting Station ${stationId}`);
     await stationStore.deleteStationById(stationId);
     response.redirect("/dashboard");
