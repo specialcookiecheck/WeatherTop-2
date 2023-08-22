@@ -29,7 +29,11 @@ export const stationStore = {
     station.readings = await readingStore.getReadingsByStationId(station._id);
     //list.readings = await readingStore.getReadingsByStationId(list._id);
     //return list;
-    return station;
+    await stationStore.updateStation(station);
+    console.log("Reloading station with updated values");
+    const updatedStation = await db.data.stations.find((station) => station._id === id);
+    console.log("returning updated station");
+    return updatedStation;
   },
 
   async getStationsByUserId(userid) {

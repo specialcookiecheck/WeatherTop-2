@@ -2,7 +2,7 @@ import { stationStore } from "../models/station-store.js";
 import { readingStore } from "../models/reading-store.js";
 import { stationAnalytics } from "../utils/station-analytics.js";
 
-let lastReading;
+//let lastReading;
 /*
 let date;
 let code;
@@ -21,6 +21,7 @@ let weatherIcon;
 
 export const stationController = {
   async index(request, response) {
+    console.log("stationController index started");
     const station = await stationStore.getStationById(request.params.id);
     //const shortestTrack = stationAnalytics.getShortestTrack(station);
     console.log("Station Readings for station " + station._id + ": " + station.readings);
@@ -30,7 +31,9 @@ export const stationController = {
     stationController.setLastData(lastReading);
     stationAnalytics.setTrends();
     */
-    await stationStore.updateStation(await stationStore.getStationById(station._id));
+    //console.log("Attempting station update");
+    //await stationStore.updateStation(await stationStore.getStationById(station._id));
+    console.log("Loading viewData");
     const viewData = {
       title: station.location,
       station: station,
@@ -65,7 +68,7 @@ export const stationController = {
     };
     console.log(`adding reading with code: ${newReading.code}`);
     await readingStore.addReading(station._id, newReading);
-    await stationStore.updateStation(station);
+    //await stationStore.updateStation(station);
     response.redirect("/station/" + station._id);
   },
 
