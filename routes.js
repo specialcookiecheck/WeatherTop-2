@@ -1,4 +1,5 @@
 import express from "express";
+import { startController } from "./controllers/start-controller.js";
 import { accountsController } from "./controllers/accounts-controller.js";
 import { dashboardController } from "./controllers/dashboard-controller.js";
 import { stationController } from "./controllers/station-controller.js";
@@ -9,13 +10,16 @@ import { weatherInfoController } from "./controllers/weatherInfo-controller.js";
 
 export const router = express.Router();
 
-router.get("/", accountsController.index);
+router.get("/", startController.index);
 
 router.get("/login", accountsController.login);
 router.get("/signup", accountsController.signup);
 router.get("/logout", accountsController.logout);
+router.get("/account/:id", accountsController.index);
 router.post("/register", accountsController.register);
 router.post("/authenticate", accountsController.authenticate);
+router.post("/account/:userid/updateuser", accountsController.updateUser);
+router.get("/account/:userid/deleteuser", accountsController.deleteUser);
 
 router.get("/dashboard", dashboardController.index);
 router.post("/dashboard/addstation", dashboardController.addStation);

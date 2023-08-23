@@ -110,16 +110,25 @@ export const stationAnalytics = {
     } else {
       // generates an empty reading to act as a placeholder
       console.log("No reading found");
+      /*
+      temperature = 0;
+      fahrenheitTemp = 0;
+      windSpeed = 0;
+      windDirection = 0;
+      beaufortSpeed = 0;
+      windCompass = 0;
+      windChillIndex = 0;
+      formattedRealFeel = 0;
+      pressure = 0;
+      */
       lastReading = {
-        /*
         code: "no valid reading entered",
         temperature: 0,
         windSpeed: 0,
         windDirection: 0,
         pressure: 0,
-        */
-      };
-    }
+      }; 
+    } 
   },
 
   getLastReading(station) {
@@ -173,7 +182,7 @@ export const stationAnalytics = {
     } else {
       weather = "No valid reading entered";
       weatherIcon = "";
-    }
+    } 
   },
 
   // converts Celsius to Fahrenheit
@@ -278,14 +287,14 @@ export const stationAnalytics = {
       windCompass = "North North West";
     } else if (windDirection <= 360) {
       windCompass = "North";
-    } else {
+    } /* else {
       windCompass = "Invalid direction";
-    }
+    } */
   },
 
   // getter for windchill index
   setWindChillIndex() {
-    windChillIndex =
+      windChillIndex =
       13.12 +
       0.6215 * temperature -
       11.37 * Math.pow(windSpeed, 0.16) +

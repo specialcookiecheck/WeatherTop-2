@@ -39,6 +39,7 @@ export const readingStore = {
     await db.write();
   },
   
+  /*
   async deleteAllReadingsFromStation(station) {
     console.log("deleting all readings associated with station " + station);
     await db.read();
@@ -50,6 +51,7 @@ export const readingStore = {
     console.log("readings deleted");
     await db.write();
   },
+  */
 
   async deleteAllReadings() {
     db.data.readings = [];

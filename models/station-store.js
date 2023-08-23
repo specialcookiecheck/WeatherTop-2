@@ -25,15 +25,14 @@ export const stationStore = {
     const station = await db.data.stations.find((station) => station._id === id);
     //const list = await db.data.stations.find((station) => station._id === id);
     console.log("Station ID: " + id);
-    //await stationAnalytics.setReadings(id);
-    station.readings = await readingStore.getReadingsByStationId(station._id);
+    station.readings = await readingStore.getReadingsByStationId(id);
     //list.readings = await readingStore.getReadingsByStationId(list._id);
     //return list;
-    await stationStore.updateStation(station);
-    console.log("Reloading station with updated values");
-    const updatedStation = await db.data.stations.find((station) => station._id === id);
-    console.log("returning updated station");
-    return updatedStation;
+    // await stationStore.updateStation(station);
+    //console.log("Reloading station with updated values");
+    //const updatedStation = await db.data.stations.find((station) => station._id === id);
+    //console.log("returning updated station");
+    return station;
   },
 
   async getStationsByUserId(userid) {

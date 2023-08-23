@@ -14,7 +14,23 @@ export const userStore = {
     user._id = v4();
     db.data.users.push(user);
     await db.write();
-    return user;
+    const addedUser = await this.getUserByEmail(user.email);
+    console.log(`Added user: ${addedUser}`)
+    return addedUser;
+  },
+  
+  async updateUser(userId, updatedUser) {
+    const user = await this.getUserById(userId);
+    console.log(`user to be updated: ${user._id}`);
+    user.firstName = updatedUser.firstName;
+    user.lastName = updatedUser.lastName;
+    user.email = updatedUser.email;
+    user.password = updatedUser.password;
+    /*
+    user.artist = updatedReading.artist;
+    user.duration = updatedReading.duration;
+    */
+    await db.write();
   },
 
   async getUserById(id) {

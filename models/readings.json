@@ -2,84 +2,44 @@
   "file": "./models/readings.json",
   "readings": [
     {
-      "time": "Tue Aug 22 2023 10:30:55 GMT+0000 (Coordinated Universal Time)",
+      "time": "Wed Aug 23 2023 15:44:21 GMT+0000 (Coordinated Universal Time)",
       "code": 100,
       "temperature": 1,
       "windSpeed": 1,
       "windDirection": 1,
       "pressure": 1000,
-      "_id": "a53fb968-668c-4a26-8871-e57d3b14d13c",
-      "stationid": "b481fcb7-ca27-497f-9d7a-1e68c88c3068"
+      "_id": "cbc81790-c0d7-447d-8335-37b5f1858fe4",
+      "stationid": "f21799a7-9d96-4af7-9fa7-29aa143e3538"
     },
     {
-      "time": "Tue Aug 22 2023 10:32:38 GMT+0000 (Coordinated Universal Time)",
-      "code": 100,
-      "temperature": 1,
-      "windSpeed": 1,
-      "windDirection": 1,
-      "pressure": 1000,
-      "_id": "41cc6975-e9d8-43b6-bd9c-7f8fdc121fda",
-      "stationid": "0ea0fbae-a775-4891-b3ef-6de200834053"
+      "time": "Wed Aug 23 2023 15:44:40 GMT+0000 (Coordinated Universal Time)",
+      "code": 200,
+      "temperature": 2,
+      "windSpeed": 2,
+      "windDirection": 2,
+      "pressure": 1002,
+      "_id": "7e0db6ec-d413-47bf-b1a3-7893b3a729a2",
+      "stationid": "f21799a7-9d96-4af7-9fa7-29aa143e3538"
     },
     {
-      "time": "Tue Aug 22 2023 10:42:10 GMT+0000 (Coordinated Universal Time)",
-      "code": 100,
-      "temperature": 1,
-      "windSpeed": 1,
-      "windDirection": 1,
-      "pressure": 1000,
-      "_id": "6ea18eef-764f-4014-8934-fa8022b29075",
-      "stationid": "4438df01-a867-4ba2-8c79-ff7d18cf11e1"
-    },
-    {
-      "time": "Tue Aug 22 2023 10:46:21 GMT+0000 (Coordinated Universal Time)",
-      "code": 600,
-      "temperature": 1,
-      "windSpeed": 1,
-      "windDirection": 1,
-      "pressure": 1010,
-      "_id": "27680790-4fad-4dd8-abb7-5b97141f694c",
-      "stationid": "4438df01-a867-4ba2-8c79-ff7d18cf11e1"
-    },
-    {
-      "time": "Tue Aug 22 2023 10:48:38 GMT+0000 (Coordinated Universal Time)",
+      "time": "Wed Aug 23 2023 15:45:03 GMT+0000 (Coordinated Universal Time)",
       "code": 500,
       "temperature": 5,
-      "windSpeed": 5,
-      "windDirection": 5,
+      "windSpeed": 50,
+      "windDirection": 245,
       "pressure": 1005,
-      "_id": "b9a6f265-4603-458d-a74c-e46343d57ffb",
-      "stationid": "4438df01-a867-4ba2-8c79-ff7d18cf11e1"
+      "_id": "18ec1f07-bd03-48b5-8967-e7e258a8c241",
+      "stationid": "f21799a7-9d96-4af7-9fa7-29aa143e3538"
     },
     {
-      "time": "Tue Aug 22 2023 10:48:55 GMT+0000 (Coordinated Universal Time)",
-      "code": 300,
-      "temperature": 3,
-      "windSpeed": 3,
-      "windDirection": 3,
-      "pressure": 1003,
-      "_id": "d93dc590-5f30-4f9c-8444-aa17bbce575e",
-      "stationid": "4438df01-a867-4ba2-8c79-ff7d18cf11e1"
-    },
-    {
-      "time": "Tue Aug 22 2023 10:49:23 GMT+0000 (Coordinated Universal Time)",
+      "time": "Wed Aug 23 2023 15:45:47 GMT+0000 (Coordinated Universal Time)",
       "code": 700,
-      "temperature": 0,
-      "windSpeed": 0,
-      "windDirection": 0,
-      "pressure": 1000,
-      "_id": "f0702268-40fb-4922-b2c5-2969e623b9eb",
-      "stationid": "4438df01-a867-4ba2-8c79-ff7d18cf11e1"
-    },
-    {
-      "time": "Tue Aug 22 2023 10:49:48 GMT+0000 (Coordinated Universal Time)",
-      "code": 200,
-      "temperature": 1,
-      "windSpeed": 1,
-      "windDirection": 1,
-      "pressure": 1001,
-      "_id": "374a3e7f-483b-42a0-901b-c6b3314dbcb0",
-      "stationid": "4438df01-a867-4ba2-8c79-ff7d18cf11e1"
+      "temperature": -15,
+      "windSpeed": 120,
+      "windDirection": 80,
+      "pressure": 900,
+      "_id": "84b19358-7537-4a0d-8b93-6aa7464dc10b",
+      "stationid": "43b6ed44-6ee0-4b27-b259-bb26b294e37b"
     }
   ]
 }
