@@ -22,7 +22,9 @@ export const stationStore = {
 
   async getStationById(id) {
     await db.read();
-    const station = await db.data.stations.find((station) => station._id === id);
+    const station = await db.data.stations.find(
+      (station) => station._id === id
+    );
     //const list = await db.data.stations.find((station) => station._id === id);
     console.log("Station ID: " + id);
     station.readings = await readingStore.getReadingsByStationId(id);
@@ -51,10 +53,10 @@ export const stationStore = {
     db.data.stations = [];
     await db.write();
   },
-  
+
   async updateStation(station) {
     console.log("updating station" + station);
-    const stationUpdate= await stationAnalytics.updateStation(station);
+    const stationUpdate = await stationAnalytics.updateStation(station);
     console.log("minTemp update:" + stationUpdate.minTemp);
     /*
     station.minTemp = stationUpdate.minTemp,
@@ -67,31 +69,39 @@ export const stationStore = {
     station.windTrend = stationUpdate.windTrend,
     station.pressureTrend = stationUpdate.pressureTrend,
     */
-      
-    station.lastCode = stationUpdate.lastCode,
-    station.lastTemperature = stationUpdate.lastTemperature,
-    station.lastFahrenheitTemp = stationUpdate.lastFahrenheitTemp,
-    station.lastWindSpeed = stationUpdate.lastWindSpeed,
-    station.lastWindDirection = stationUpdate.lastWindDirection,
-    station.lastBeaufortSpeed = stationUpdate.lastBeaufortSpeed,
-    station.lastWindCompass = stationUpdate.lastWindCompass,
-    station.lastWindChillIndex = stationUpdate.lastWindChillIndex,
-    station.lastFormattedRealFeel = stationUpdate.lastFormattedRealFeel,
-    station.lastPressure = stationUpdate.lastPressure,
-    station.lastWeather = stationUpdate.lastWeather,
-    station.lastWeatherIcon = stationUpdate.lastWeatherIcon,
-    station.minTemp = stationUpdate.minTemp,
-    station.maxTemp = stationUpdate.maxTemp,
-    station.minWind = stationUpdate.minWind,
-    station.maxWind = stationUpdate.maxWind,
-    station.minPressure = stationUpdate.minPressure,
-    station.maxPressure = stationUpdate.maxPressure,
-    station.tempTrend = stationUpdate.tempTrend,
-    station.windTrend = stationUpdate.windTrend,
-    station.pressureTrend = stationUpdate.pressureTrend,
-    station.tempTrendOutput = stationUpdate.tempTrendOutput,
-    station.windTrendOutput = stationUpdate.windTrendOutput,
-    station.pressureTrendOutput = stationUpdate.pressureTrendOutput,
-    await db.write();
-  }
+
+    (station.lastCode = stationUpdate.lastCode),
+      (station.lastTemperature = stationUpdate.lastTemperature),
+      (station.lastFahrenheitTemp = stationUpdate.lastFahrenheitTemp),
+      (station.lastWindSpeed = stationUpdate.lastWindSpeed),
+      (station.lastWindDirection = stationUpdate.lastWindDirection),
+      (station.lastBeaufortSpeed = stationUpdate.lastBeaufortSpeed),
+      (station.lastWindCompass = stationUpdate.lastWindCompass),
+      (station.lastWindChillIndex = stationUpdate.lastWindChillIndex),
+      (station.lastFormattedRealFeel = stationUpdate.lastFormattedRealFeel),
+      (station.lastPressure = stationUpdate.lastPressure),
+      (station.lastWeather = stationUpdate.lastWeather),
+      (station.lastWeatherIcon = stationUpdate.lastWeatherIcon),
+      (station.minTemp = stationUpdate.minTemp),
+      (station.maxTemp = stationUpdate.maxTemp),
+      (station.minWind = stationUpdate.minWind),
+      (station.maxWind = stationUpdate.maxWind),
+      (station.minPressure = stationUpdate.minPressure),
+      (station.maxPressure = stationUpdate.maxPressure),
+      (station.tempTrend = stationUpdate.tempTrend),
+      (station.windTrend = stationUpdate.windTrend),
+      (station.pressureTrend = stationUpdate.pressureTrend),
+      (station.tempTrendOutput = stationUpdate.tempTrendOutput),
+      (station.windTrendOutput = stationUpdate.windTrendOutput),
+      (station.pressureTrendOutput = stationUpdate.pressureTrendOutput),
+      (station.lastOpenWeatherLabelArray =
+        stationUpdate.lastOpenWeatherLabelArray),
+      (station.lastOpenWeatherTempTrendArray =
+        stationUpdate.lastOpenWeatherTempTrendArray),
+      (station.lastOpenWeatherWindTrendArray =
+        stationUpdate.lastOpenWeatherWindTrendArray),
+      (station.lastOpenWeatherPressureTrendArray =
+        stationUpdate.lastOpenWeatherPressureTrendArray),
+      await db.write();
+  },
 };

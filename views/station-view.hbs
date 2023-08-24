@@ -29,13 +29,14 @@
         </tbody>
     </table>
 
-    <div>
-        <h2 class="subtitle is-6">Submitted Readings for {{station.location}}:</h2>
+    <div class="content box">
+        <h2 class="subtitle is-6">Submitted Readings for {{station.location}}</h2>
         {{> list-readings}}
     </div>
 </div>
 
-<h3 class="subtitle is-5">
+<section class="content box">
+  <h3 class="subtitle is-5">
     Add a new reading
 </h3>
 
@@ -44,3 +45,7 @@
 <br>
 
 {{> add-openweather-reading}}
+</section>
+
+
+{{> station-charts}}

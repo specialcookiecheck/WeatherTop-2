@@ -65,5 +65,10 @@ body {
     color: purple;
 }
 
+#map {
+  height: 180px; 
+}
+
+
 
 

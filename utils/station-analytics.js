@@ -37,6 +37,11 @@ let tempTrendOutput;
 let windTrendOutput;
 let pressureTrendOutput;
 
+let openWeatherLabelArray;
+let openWeatherTempTrendArray;
+let openWeatherWindTrendArray;
+let openWeatherPressureTrendArray;
+
 let mapSrc;
 
 export const stationAnalytics = {
@@ -68,6 +73,10 @@ export const stationAnalytics = {
       tempTrendOutput: tempTrendOutput,
       windTrendOutput: windTrendOutput,
       pressureTrendOutput: pressureTrendOutput,
+      lastOpenWeatherLabelArray: openWeatherLabelArray,
+      lastOpenWeatherTempTrendArray: openWeatherTempTrendArray,
+      lastOpenWeatherWindTrendArray: openWeatherWindTrendArray,
+      lastOpenWeatherPressureTrendArray: openWeatherPressureTrendArray,
     };
     console.log("temperature update:" + stationUpdate.lastTemperature);
     console.log("maxTemp update:" + stationUpdate.maxTemp);
@@ -150,6 +159,7 @@ export const stationAnalytics = {
     stationAnalytics.setWindCompass();
     stationAnalytics.setWindChillIndex();
     stationAnalytics.setRealFeel();
+    stationAnalytics.setOpenWeatherTrendArrays();
   },
 
   // sets weather condition & icon
@@ -572,4 +582,11 @@ export const stationAnalytics = {
     if (openWeatherCode >= 200 && openWeatherCode <= 232) return 800; // Thunder
     return "Unknown weather condition";
   },
+  
+  setOpenWeatherTrendArrays() {
+    openWeatherLabelArray = lastReading.trendLabels;
+    openWeatherTempTrendArray = lastReading.tempTrend;
+    openWeatherWindTrendArray = lastReading.windTrend;
+    openWeatherPressureTrendArray = lastReading.pressureTrend;
+  }
 };

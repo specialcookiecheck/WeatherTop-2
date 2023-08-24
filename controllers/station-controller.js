@@ -82,6 +82,7 @@ export const stationController = {
     let report = {};
     const result = await axios.get(stationController.oneCallRequest(station));
     if (result.status == 200) {
+      //console.log(result.data.daily);
       const reading = result.data.current;
       (report.time = Date()),
         (report.code = stationAnalytics.openWeatherCodeConverter(
@@ -91,6 +92,19 @@ export const stationController = {
       report.windSpeed = Math.round(reading.wind_speed * 2) / 2;
       report.pressure = reading.pressure;
       report.windDirection = reading.wind_deg;
+      report.trendLabels = [];
+      report.tempTrend = [];
+      report.windTrend = [];
+      report.pressureTrend = [];
+      const trends = result.data.daily;
+      for (let i=0; i<trends.length; i++) {
+        report.tempTrend.push(trends[i].temp.day);
+        report.windTrend.push(trends[i].wind_speed);
+        report.pressureTrend.push(trends[i].pressure);
+        const date = new Date(trends[i].dt * 1000);
+        report.trendLabels.push(`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}` );
+      }
+      console.log(report);
     }
     // console.log(`adding reading with code: ${newReading.code}`);
     await readingStore.addReading(station._id, report);
