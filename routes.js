@@ -35,3 +35,5 @@ router.get("/history", historyController.index);
 router.get("/weatherinfo", weatherInfoController.index);
 router.get("/logout", accountsController.logout);
 
+router.post("/station/:id/addreport", stationController.addReport);
+

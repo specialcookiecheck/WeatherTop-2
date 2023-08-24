@@ -127,8 +127,8 @@ export const stationAnalytics = {
         windSpeed: 0,
         windDirection: 0,
         pressure: 0,
-      }; 
-    } 
+      };
+    }
   },
 
   getLastReading(station) {
@@ -182,7 +182,7 @@ export const stationAnalytics = {
     } else {
       weather = "No valid reading entered";
       weatherIcon = "";
-    } 
+    }
   },
 
   // converts Celsius to Fahrenheit
@@ -294,7 +294,7 @@ export const stationAnalytics = {
 
   // getter for windchill index
   setWindChillIndex() {
-      windChillIndex =
+    windChillIndex =
       13.12 +
       0.6215 * temperature -
       11.37 * Math.pow(windSpeed, 0.16) +
@@ -388,10 +388,11 @@ export const stationAnalytics = {
           minPressure = station.readings[i].pressure;
           console.log("minPressure updated");
         }
-        console.log(
-          "Current maxPressure: " + maxPressure
-        );
-        if (maxPressure < station.readings[i].pressure || maxPressure === undefined) {
+        console.log("Current maxPressure: " + maxPressure);
+        if (
+          maxPressure < station.readings[i].pressure ||
+          maxPressure === undefined
+        ) {
           maxPressure = station.readings[i].pressure;
           console.log("maxPressure updated");
         }
@@ -558,5 +559,17 @@ export const stationAnalytics = {
       "&z=10" +
       "&output=embed";
     return mapSrc;
+  },
+
+  openWeatherCodeConverter(openWeatherCode) {
+    if (openWeatherCode === 800) return 100; // Clear
+    if (openWeatherCode >= 801 && openWeatherCode <= 804) return 200; // Partial clouds
+    if (openWeatherCode >= 701 && openWeatherCode <= 781) return 300; // Cloudy (fog, mist, etc.)
+    if (openWeatherCode >= 300 && openWeatherCode <= 321) return 400; // Light Showers (drizzle)
+    if (openWeatherCode >= 500 && openWeatherCode <= 531) return 500; // Heavy Showers (rain)
+    if (openWeatherCode >= 400 && openWeatherCode <= 504) return 600; // Rain
+    if (openWeatherCode >= 600 && openWeatherCode <= 622) return 700; // Snow
+    if (openWeatherCode >= 200 && openWeatherCode <= 232) return 800; // Thunder
+    return "Unknown weather condition";
   },
 };
