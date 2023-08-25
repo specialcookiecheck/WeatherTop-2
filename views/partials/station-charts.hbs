@@ -55,31 +55,38 @@
     {{#each station.lastOpenWeatherPressureTrendArray}}
         "{{this}}",
       {{/each}}
-      ]
+      ],
       },
     ],
-    //yRegions: [{ label: "", start: 800, end: 1200, type: "solid" }]
+    yMarkers: [ //this exists purely to center the graph line
+        {
+            label: '',
+            value: 0,
+            type: 'solid'
+        }
+      ],
   }
   
   const tempChart = new frappe.Chart("#tempchart", {
-    title: "Recent OpenWeather Temperature trend for station {{station.location}}",
+    title: "Temperature forecast for station {{station.location}}",
     data: tempData,
     type: 'line',
-    height: 250,
+    height: 500,
   })
   
   const windChart = new frappe.Chart("#windchart", {
-    title: "Recent OpenWeather Wind trend for station {{station.location}}",
+    title: "Wind Speed forecast for station {{station.location}}",
     data: windData,
     type: 'line',
-    height: 250,
+    height: 500,
   })
   
   const pressureChart = new frappe.Chart("#pressurechart", {
-    title: "Recent OpenWeather Pressure trend for station {{station.location}}",
+    title: "Pressure forecast for station {{station.location}}",
     data: pressureData,
     type: 'line',
-    height: 250,
+    height: 500,
+    
   })
   
 </script>

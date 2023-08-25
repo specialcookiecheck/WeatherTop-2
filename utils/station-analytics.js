@@ -1,5 +1,8 @@
 import { stationStore } from "../models/station-store.js";
 import { readingStore } from "../models/reading-store.js";
+import axios from "axios";
+
+const openWeatherApiKey = "e644bcef67d3a0eb9e11fd75e93a3e20";
 
 let readings;
 let lastReading;
@@ -90,6 +93,7 @@ export const stationAnalytics = {
     await stationAnalytics.setStationMinMax(station);
     await stationAnalytics.setTrends(station);
     await stationAnalytics.setTrendOutputs(station);
+    await stationAnalytics.setOpenWeatherTrendArrays(station);
     console.log("Data has been set");
   },
 
@@ -159,7 +163,6 @@ export const stationAnalytics = {
     stationAnalytics.setWindCompass();
     stationAnalytics.setWindChillIndex();
     stationAnalytics.setRealFeel();
-    stationAnalytics.setOpenWeatherTrendArrays();
   },
 
   // sets weather condition & icon
@@ -582,11 +585,38 @@ export const stationAnalytics = {
     if (openWeatherCode >= 200 && openWeatherCode <= 232) return 800; // Thunder
     return "Unknown weather condition";
   },
-  
-  setOpenWeatherTrendArrays() {
-    openWeatherLabelArray = lastReading.trendLabels;
-    openWeatherTempTrendArray = lastReading.tempTrend;
-    openWeatherWindTrendArray = lastReading.windTrend;
-    openWeatherPressureTrendArray = lastReading.pressureTrend;
-  }
+
+  async setOpenWeatherTrendArrays(station) {
+    const returnedForeCast = await axios.get(
+      stationAnalytics.oneCallRequest(station)
+    );
+    console.log("returnedForeCast: " + returnedForeCast);
+    //console.log(returnedForeCast);
+    const trends = returnedForeCast.data.daily;
+    //console.log("trends " + trends);
+    //console.log(trends[0]);
+    const foreCast = {};
+    foreCast.trendLabels = [];
+    foreCast.tempTrend = [];
+    foreCast.windTrend = [];
+    foreCast.pressureTrend = [];
+    for (let i = 0; i < trends.length; i++) {
+      //console.log(trends[i].temp.day);
+      foreCast.tempTrend.push(trends[i].temp.day);
+      foreCast.windTrend.push(trends[i].wind_speed);
+      foreCast.pressureTrend.push(trends[i].pressure);
+      const date = new Date(trends[i].dt * 1000);
+      foreCast.trendLabels.push(
+        `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+      );
+    }
+    openWeatherLabelArray = foreCast.trendLabels;
+    openWeatherTempTrendArray = foreCast.tempTrend;
+    openWeatherWindTrendArray = foreCast.windTrend;
+    openWeatherPressureTrendArray = foreCast.pressureTrend;
+  },
+
+  oneCallRequest(station) {
+    return `https://api.openweathermap.org/data/2.5/onecall?lat=${station.latitude}&lon=${station.longitude}&appid=${openWeatherApiKey}&units=metric`;
+  },
 };

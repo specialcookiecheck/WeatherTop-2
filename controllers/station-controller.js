@@ -3,7 +3,7 @@ import { readingStore } from "../models/reading-store.js";
 import { stationAnalytics } from "../utils/station-analytics.js";
 import axios from "axios";
 
-const apiKey = "e644bcef67d3a0eb9e11fd75e93a3e20";
+//const apiKey = "e644bcef67d3a0eb9e11fd75e93a3e20";
 
 export const stationController = {
   async index(request, response) {
@@ -80,7 +80,7 @@ export const stationController = {
   async addReport(request, response) {
     const station = await stationStore.getStationById(request.params.id);
     let report = {};
-    const result = await axios.get(stationController.oneCallRequest(station));
+    const result = await axios.get(stationAnalytics.oneCallRequest(station));
     if (result.status == 200) {
       //console.log(result.data.daily);
       const reading = result.data.current;
@@ -92,10 +92,12 @@ export const stationController = {
       report.windSpeed = Math.round(reading.wind_speed * 2) / 2;
       report.pressure = reading.pressure;
       report.windDirection = reading.wind_deg;
+      /*
       report.trendLabels = [];
       report.tempTrend = [];
       report.windTrend = [];
       report.pressureTrend = [];
+      
       const trends = result.data.daily;
       for (let i=0; i<trends.length; i++) {
         report.tempTrend.push(trends[i].temp.day);
@@ -104,6 +106,7 @@ export const stationController = {
         const date = new Date(trends[i].dt * 1000);
         report.trendLabels.push(`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}` );
       }
+      */
       console.log(report);
     }
     // console.log(`adding reading with code: ${newReading.code}`);
@@ -111,8 +114,12 @@ export const stationController = {
     //await stationStore.updateStation(station);
     response.redirect("/station/" + station._id);
   },
-
+  
+  /*
   oneCallRequest(station) {
-    return `https://api.openweathermap.org/data/2.5/onecall?lat=${station.latitude}&lon=${station.longitude}&units=metric&appid=${apiKey}`;
+    return `api.openweathermap.org/data/2.5/forecast?lat=${station.latitude}&lon=${station.longitude}&units=metric&appid=${apiKey}`;
   },
+  */
+  
+  
 };

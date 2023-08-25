@@ -8,3 +8,4 @@ References:
 - https://stackoverflow.com/questions/6137986/javascript-roundoff-number-to-nearest-0-5
 - https://reactgo.com/javascript-sort-objects-alphabetically/
 - https://leafletjs.com/examples/quick-start/
+- https://github.com/frappe/charts/issues/86
