@@ -3,9 +3,9 @@ import { readingStore } from "../models/reading-store.js";
 import { stationAnalytics } from "../utils/station-analytics.js";
 import axios from "axios";
 
-//const apiKey = "e644bcef67d3a0eb9e11fd75e93a3e20";
-
 export const stationController = {
+  
+  // renders the station-view
   async index(request, response) {
     console.log("stationController index started");
     const stationId = request.params.id;
@@ -25,6 +25,7 @@ export const stationController = {
     response.render("station-view", viewData);
   },
 
+  // adds a reading to a station
   async addReading(request, response) {
     const station = await stationStore.getStationById(request.params.id);
     const newReading = {
@@ -37,20 +38,19 @@ export const stationController = {
     };
     console.log(`adding reading with code: ${newReading.code}`);
     await readingStore.addReading(station._id, newReading);
-    //await stationStore.updateStation(station);
     response.redirect("/station/" + station._id);
   },
-
+  
+  // deletes a reading
   async deleteReading(request, response) {
     const stationId = request.params.stationid;
     const readingId = request.params.readingid;
     console.log(`Deleting Reading ${readingId} from Station ${stationId}`);
     await readingStore.deleteReading(readingId);
-    //console.log(`Updating station ${stationId}`);
-    //await stationStore.updateStation(await stationStore.getStationById(stationId));
     response.redirect("/station/" + stationId);
   },
-
+  
+  // deletes all readings associated with a station based on the browser request
   async deleteAllReadingsFromStation(request, response) {
     const stationId = request.params.id;
     console.log(`deleting all readings associated with station ${stationId}:`);
@@ -63,9 +63,9 @@ export const stationController = {
       console.log(`reading ${readingId} deleted`);
     }
   },
-
+  
+  // deletes all readings associated with a station based on the station ID
   async deleteAllReadingsFromStationByStationId(stationId) {
-    // const stationId = request.params.id;
     console.log(`deleting all readings associated with station ${stationId}:`);
     const station = await stationStore.getStationById(stationId);
     for (let i = 0; i < station.readings.length; i++) {
@@ -76,13 +76,13 @@ export const stationController = {
       console.log(`reading ${readingId} deleted`);
     }
   },
-
+  
+  // adds an auto-generated weather report (reading) to a station
   async addReport(request, response) {
     const station = await stationStore.getStationById(request.params.id);
     let report = {};
     const result = await axios.get(stationAnalytics.oneCallRequest(station));
     if (result.status == 200) {
-      //console.log(result.data.daily);
       const reading = result.data.current;
       (report.time = Date()),
         (report.code = stationAnalytics.openWeatherCodeConverter(
@@ -92,34 +92,9 @@ export const stationController = {
       report.windSpeed = Math.round(reading.wind_speed * 2) / 2;
       report.pressure = reading.pressure;
       report.windDirection = reading.wind_deg;
-      /*
-      report.trendLabels = [];
-      report.tempTrend = [];
-      report.windTrend = [];
-      report.pressureTrend = [];
-      
-      const trends = result.data.daily;
-      for (let i=0; i<trends.length; i++) {
-        report.tempTrend.push(trends[i].temp.day);
-        report.windTrend.push(trends[i].wind_speed);
-        report.pressureTrend.push(trends[i].pressure);
-        const date = new Date(trends[i].dt * 1000);
-        report.trendLabels.push(`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}` );
-      }
-      */
       console.log(report);
     }
-    // console.log(`adding reading with code: ${newReading.code}`);
     await readingStore.addReading(station._id, report);
-    //await stationStore.updateStation(station);
     response.redirect("/station/" + station._id);
   },
-  
-  /*
-  oneCallRequest(station) {
-    return `api.openweathermap.org/data/2.5/forecast?lat=${station.latitude}&lon=${station.longitude}&units=metric&appid=${apiKey}`;
-  },
-  */
-  
-  
 };

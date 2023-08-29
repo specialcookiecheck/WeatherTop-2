@@ -1,4 +1,6 @@
 export const startController = {
+  
+  // renders the start view
   index(request, response) {
     const viewData = {
       title: "Welcome to WeatherTop2!",

@@ -6,6 +6,8 @@ import { stationController } from "./station-controller.js";
 import { userStore } from "../models/user-store.js";
 
 export const dashboardController = {
+  
+  // renders the logged in user's dashboard
   async index(request, response) {
     const loggedInUser = await accountsController.getLoggedInUser(request);
     console.log("logged in user: " + loggedInUser);
@@ -31,7 +33,8 @@ export const dashboardController = {
     console.log("dashboard rendering");
     response.render("dashboard-view", viewData);
   },
-
+  
+  // adds a station to the dashboard
   async addStation(request, response) {
     const loggedInUser = await accountsController.getLoggedInUser(request);
     let latitude = request.body.latitude;
@@ -43,36 +46,13 @@ export const dashboardController = {
       mapSrc: await stationAnalytics.setMapSrc(latitude, longitude),
       userid: loggedInUser._id,
       lastWeather: "No valid reading entered",
-      /*
-      lastWeatherIcon: "",
-      lastTemperature: "",
-      minTemp:"",
-      maxTemp: "",
-      lastWindSpeed: "",
-      minWind: "",
-      maxWind: "",
-      lastWindDirection: "",
-      lastPressure: "",
-      minPressure: "",
-      maxPressure: "",
-      tempTrend: "",
-      windTrend: "",
-      pressureTrend: "",
-      fahrenheitTemp: "",
-      lastBeaufortSpeed: "",
-      lastWindCompass: "",
-      lastWindChillIndex: "",
-      lastFormattedRealFeel: "",
-      tempTrendOutput: "",
-      windTrendOutput: "",
-      pressureTrendOutput: "",
-      */
     };
     console.log(`adding station ${newStation.location}`);
     await stationStore.addStation(newStation);
     response.redirect("/dashboard");
   },
-
+  
+  // deletes a station from the dashboard based on the browser request
   async deleteStation(request, response) {
     const stationId = request.params.id;
     console.log(`Deleting Station ${stationId}`);
@@ -82,14 +62,13 @@ export const dashboardController = {
     console.log(`station ${stationId} deleted`);
     response.redirect("/dashboard");
   },
-
+  
+  // deletes a station based on the station ID
   async deleteStationByStationId(stationId) {
-    // const stationId = request.params.id;
     console.log(`Deleting Station ${stationId}`);
     console.log(`Delete readings from station ${stationId}`);
     await stationController.deleteAllReadingsFromStationByStationId(stationId);
     await stationStore.deleteStationById(stationId);
     console.log(`station ${stationId} deleted`);
-    //response.redirect("/dashboard");
   },
 };

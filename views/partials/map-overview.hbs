@@ -6,26 +6,18 @@
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '© OpenStreetMap'
-}).addTo(map);
+  }).addTo(map);
   
   {{#each stations}}
-  var marker = L.marker([{{latitude}}, {{longitude}}]).addTo(map);
   
+  var marker = L.marker([{{latitude}}, {{longitude}}]).addTo(map);
   marker.bindPopup("<b>{{location}}</b><br><a href=\"/station/{{_id}}\">Open station</a>"); //.openPopup();
   
   {{/each}}
   
-  /*
-  var popup = L.popup()
-    .setLatLng([51.513, -0.09])
-    .setContent("I am a standalone popup.")
-    .openOn(map);
-    */
-  
   function onMapClick(e) {
     alert(`This location has the following coordinates: ${e.latlng.toString()}`);
-}
-map.on('click', onMapClick);
-
+  }
+  map.on('click', onMapClick);
 
 </script>

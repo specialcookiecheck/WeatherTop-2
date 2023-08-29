@@ -1,4 +1,6 @@
 export const weatherInfoController = {
+  
+  // renders the weather info page
   index(request, response) {
     const viewData = {
       title: "Weather Info",

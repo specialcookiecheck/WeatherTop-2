@@ -48,6 +48,8 @@ let openWeatherPressureTrendArray;
 let mapSrc;
 
 export const stationAnalytics = {
+  
+  // activates an update process for all updatable station variables
   async updateStation(station) {
     console.log("station " + station + " update in progress");
     await stationAnalytics.setData(station);
@@ -85,9 +87,9 @@ export const stationAnalytics = {
     console.log("maxTemp update:" + stationUpdate.maxTemp);
     return stationUpdate;
   },
-
+  
+  // activates setters for all updatable station variables
   async setData(station) {
-    //await stationAnalytics.setReadings(station);
     await stationAnalytics.setLastReading(station);
     await stationAnalytics.setLastData(lastReading);
     await stationAnalytics.setStationMinMax(station);
@@ -96,23 +98,11 @@ export const stationAnalytics = {
     await stationAnalytics.setOpenWeatherTrendArrays(station);
     console.log("Data has been set");
   },
-
-  // returns the last Reading for a Station
-  async setReadings(station) {
-    console.log("Setting readings for station " + station);
-    readings = await readingStore.getReadingsByStationId(station);
-    console.log("Readings received: " + readings);
-  },
-
-  getCurrentReadings() {
-    console.log("Returning current readings: " + readings);
-    return readings;
-  },
-
+  
+  // fills the lastReading variable with the last Reading object
   setLastReading(station) {
     console.log("Setting last reading");
     if (station.readings.length > 0) {
-      //console.log("Setting last reading");
       lastReading = station.readings[station.readings.length - 1];
       console.log("Last Reading ID: " + lastReading._id);
       console.log("Last Reading Code: " + lastReading.code);
@@ -121,19 +111,8 @@ export const stationAnalytics = {
       console.log("Last Reading WindDir: " + lastReading.windDirection);
       console.log("Last Reading Press: " + lastReading.pressure);
     } else {
-      // generates an empty reading to act as a placeholder
+      // generates an empty reading to act as a placeholder in case no actual Readings exist
       console.log("No reading found");
-      /*
-      temperature = 0;
-      fahrenheitTemp = 0;
-      windSpeed = 0;
-      windDirection = 0;
-      beaufortSpeed = 0;
-      windCompass = 0;
-      windChillIndex = 0;
-      formattedRealFeel = 0;
-      pressure = 0;
-      */
       lastReading = {
         code: "no valid reading entered",
         temperature: 0,
@@ -143,14 +122,16 @@ export const stationAnalytics = {
       };
     }
   },
-
+  
+  // activates setting of the last Reading and returns the last Reading for a station
   getLastReading(station) {
     console.log("Getting last reading");
     stationAnalytics.setLastReading(station);
     console.log("Returning last reading");
     return lastReading;
   },
-
+  
+  // updates station variables with latest data 
   setLastData(lastReading) {
     code = lastReading.code;
     temperature = lastReading.temperature;
@@ -203,21 +184,6 @@ export const stationAnalytics = {
     fahrenheitTemp = Math.round(((temperature * 9) / 5 + 32) * 100) / 100;
   },
 
-  // formats all data values in database to suitable String format for outputting
-  /*
-    getDateTimeFormatted() {
-        if (date.charAt(0) == 'I') {
-            let newstring = date.substring(8, date.length() - 5);
-            const datetime = LocalDateTime.parse(newstring);
-            newstring = datetime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            return newstring;
-        } else {
-            const datetime = LocalDateTime.parse(date);
-            let newstring = datetime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            return newstring;
-        }
-    }, */
-
   // getter for weather condition
   getWeather(code) {
     console.log("getting weather");
@@ -231,7 +197,7 @@ export const stationAnalytics = {
     return weatherIcon;
   },
 
-  // getter for Beaufort wind scale
+  // setter for Beaufort wind scale
   setBeaufortSpeed() {
     if (windSpeed < 1) {
       beaufortSpeed = "Calm: 0";
@@ -262,7 +228,7 @@ export const stationAnalytics = {
     }
   },
 
-  // getter for wind compass direction
+  // setter for wind compass direction
   setWindCompass() {
     if (windDirection < 0) {
       windCompass = "Invalid direction";
@@ -300,12 +266,10 @@ export const stationAnalytics = {
       windCompass = "North North West";
     } else if (windDirection <= 360) {
       windCompass = "North";
-    } /* else {
-      windCompass = "Invalid direction";
-    } */
+    }
   },
 
-  // getter for windchill index
+  // setter for windchill index
   setWindChillIndex() {
     windChillIndex =
       13.12 +
@@ -314,37 +278,10 @@ export const stationAnalytics = {
       0.3965 * temperature * Math.pow(windSpeed, 0.16);
   },
 
-  // getter for real feel
+  // setter for real feel
   setRealFeel() {
     formattedRealFeel = Math.round(windChillIndex * 10) / 10;
   },
-
-  /*
-  // updates the minimum and maximum values for the station (station parameter)
-  updateStationMinMax(station) {
-    if (station.minPressure == 0) {
-      station.setStationMinMax();
-    }
-    if (station.minWind > windSpeed) {
-      station.minWind = windSpeed;
-    }
-    if (station.maxWind < windSpeed) {
-      station.maxWind = windSpeed;
-    }
-    if (station.minTemp > temperature) {
-      station.minTemp = temperature;
-    }
-    if (station.maxTemp < temperature) {
-      station.maxTemp = temperature;
-    }
-    if (station.minPressure > pressure) {
-      station.minPressure = pressure;
-    }
-    if (station.maxPressure < pressure) {
-      station.maxPressure = pressure;
-    }
-  },
-  */
 
   // sets the min and max weather values for a Station, and clears them if all readings have been deleted
   setStationMinMax(station) {
@@ -365,7 +302,6 @@ export const stationAnalytics = {
 
         if (
           minTemp > station.readings[i].temperature ||
-          //(minTemp === 0 && station.readings.indexOf.temperature === 0 )
           minTemp === undefined
         ) {
           minTemp = station.readings[i].temperature;
@@ -420,7 +356,8 @@ export const stationAnalytics = {
       maxPressure = void 0;
     }
   },
-
+  
+  // returns minMax values for a station
   getStationMinMax(station) {
     stationAnalytics.setStationMinMax(station);
     return { minTemp, maxTemp, minWind, maxWind, minPressure, maxPressure };
@@ -483,7 +420,8 @@ export const stationAnalytics = {
       windTrend = "Neutral";
     }
   },
-
+  
+  // activates setting of the trend output icons
   setTrendOutputs(station) {
     stationAnalytics.setTempTrendOutput(station);
     stationAnalytics.setWindTrendOutput(station);
@@ -573,7 +511,8 @@ export const stationAnalytics = {
       "&output=embed";
     return mapSrc;
   },
-
+  
+  // converts openWeather weaether codes to codes that match this program's values for manual input
   openWeatherCodeConverter(openWeatherCode) {
     if (openWeatherCode === 800) return 100; // Clear
     if (openWeatherCode >= 801 && openWeatherCode <= 804) return 200; // Partial clouds
@@ -585,23 +524,20 @@ export const stationAnalytics = {
     if (openWeatherCode >= 200 && openWeatherCode <= 232) return 800; // Thunder
     return "Unknown weather condition";
   },
-
+  
+  // fills the arrays for & with openWeather weather data
   async setOpenWeatherTrendArrays(station) {
     const returnedForeCast = await axios.get(
       stationAnalytics.oneCallRequest(station)
     );
     console.log("returnedForeCast: " + returnedForeCast);
-    //console.log(returnedForeCast);
     const trends = returnedForeCast.data.daily;
-    //console.log("trends " + trends);
-    //console.log(trends[0]);
     const foreCast = {};
     foreCast.trendLabels = [];
     foreCast.tempTrend = [];
     foreCast.windTrend = [];
     foreCast.pressureTrend = [];
     for (let i = 0; i < trends.length; i++) {
-      //console.log(trends[i].temp.day);
       foreCast.tempTrend.push(trends[i].temp.day);
       foreCast.windTrend.push(trends[i].wind_speed);
       foreCast.pressureTrend.push(trends[i].pressure);
@@ -615,7 +551,8 @@ export const stationAnalytics = {
     openWeatherWindTrendArray = foreCast.windTrend;
     openWeatherPressureTrendArray = foreCast.pressureTrend;
   },
-
+  
+  // returns the correct openWeather API call for a station
   oneCallRequest(station) {
     return `https://api.openweathermap.org/data/2.5/onecall?lat=${station.latitude}&lon=${station.longitude}&appid=${openWeatherApiKey}&units=metric`;
   },
