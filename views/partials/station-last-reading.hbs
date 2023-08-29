@@ -1,0 +1,79 @@
+<td>
+  <div class="box subtitle is-6 has-text-centered">
+    <i class="{{station.lastWeatherIcon}} is-size-1"></i><br /><br />
+    {{station.lastWeather}}
+  </div>
+</td>
+<td>
+  <div class="box subtitle is-6">
+    <p>
+      {{station.lastTemperature}}
+      Celsius (C)
+      <br />
+      {{station.lastFahrenheitTemp}}
+      Fahrenheit
+    </p>
+    <p>
+      Minimum:
+      {{station.minTemp}}
+      (C)
+      <br />
+      Maximum:
+      {{station.maxTemp}}
+      (C)
+    </p>
+    <p>
+      Trending
+      <i class="{{station.tempTrendOutput}}"></i>
+    </p>
+  </div>
+</td>
+<td>
+  <div class="box subtitle is-6">
+    <p>
+      {{station.lastBeaufortSpeed}}
+      bft<br />
+      <i class="fas fa-compass"></i>
+      {{station.lastWindCompass}}
+    </p>
+    <p>
+      Feels like:
+      {{station.lastFormattedRealFeel}}
+      (C)
+    </p>
+    <p>
+      Minimum:
+      {{station.minWind}}
+      (km/h)
+      <br />
+      Maximum:
+      {{station.maxWind}}
+      (km/h)
+    </p>
+    <p>
+      Trending
+      <i class="{{station.windTrendOutput}}"></i>
+    </p>
+  </div>
+</td>
+<td>
+  <div class="box subtitle is-6">
+    <p>
+      {{station.lastPressure}}
+      hPa
+    </p>
+    <p>
+      Minimum:
+      {{station.minPressure}}
+      (hPa)
+      <br />
+      Maximum:
+      {{station.maxPressure}}
+      (hPa)
+    </p>
+    <p>
+      Trending
+      <i class="{{station.pressureTrendOutput}}"></i>
+    </p>
+  </div>
+</td>

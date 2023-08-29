@@ -1,0 +1,45 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Submitted on</th>
+      <th>Weather code</th>
+      <th>Temperature</th>
+      <th>Wind Speed</th>
+      <th>Wind Direction</th>
+      <th>Pressure</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each station.readings}}
+    <tr>
+      <td>
+        {{time}}
+      </td>
+      <td>
+        {{code}}
+      </td>
+      <td>
+        {{temperature}}
+      </td>
+      <td>
+        {{windSpeed}}
+      </td>
+      <td>
+        {{windDirection}}
+      </td>
+      <td>
+        {{pressure}}
+      </td>
+      <td>
+        <a href="/station/{{../station._id}}/deletereading/{{_id}}"><span class="icon has-text-danger">
+          <i class="fas fa-trash"></i>
+          </span>
+        </a>
+      </td>
+    </tr>
+    
+    {{/each}}
+  
+  </tbody>
+</table>

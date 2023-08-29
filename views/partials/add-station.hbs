@@ -1,0 +1,51 @@
+<form action="/dashboard/addstation" method="POST">
+  <div class="columns">
+    <div class="field column">
+      <div class="control has-icons-left">
+        <input
+          class="input is-rounded"
+          placeholder="Station Name"
+          type="text"
+          name="location"
+          required
+        />
+        <span class="icon is-small is-left">
+          <i class="fas fa-location-crosshairs" id="addstation"></i>
+        </span>
+      </div>
+    </div>
+    <div class="field column">
+      <div class="control has-icons-left">
+        <input
+          class="input is-rounded"
+          placeholder="Station Latitude"
+          type="number"
+          step="0.000001"
+          name="latitude"
+          required
+        />
+        <span class="icon is-small is-left">
+          <i class="fas fa-compass"></i>
+        </span>
+      </div>
+    </div>
+    <div class="field column">
+      <div class="control has-icons-left">
+        <input
+          class="input is-rounded"
+          placeholder="Station Longitude"
+          type="number"
+          step="0.000001"
+          name="longitude"
+          required
+        />
+        <span class="icon is-small is-left">
+          <i class="fas fa-compass"></i>
+        </span>
+      </div>
+    </div>
+    <div class="field mt-4">
+      <button class="button is-link">Add Station</button>
+    </div>
+  </div>
+</form>

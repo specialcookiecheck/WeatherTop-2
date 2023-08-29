@@ -1,0 +1,91 @@
+<div class="box" id="tempchart"></div>
+<div class="box" id="windchart"></div>
+<div class="box" id="pressurechart"></div>
+
+
+<script>
+  const tempData = {
+    labels: [
+    {{#each station.lastOpenWeatherLabelArray}}
+        "{{this}}",
+      {{/each}}
+      ],
+    datasets: [
+      {
+        //chartType: 'bar',
+        name: "Temperature", type: "line",
+        values: [
+    {{#each station.lastOpenWeatherTempTrendArray}}
+        "{{this}}",
+      {{/each}}
+      ]
+      },
+    ]
+  }
+  
+  const windData = {
+    labels: [
+    {{#each station.lastOpenWeatherLabelArray}}
+        "{{this}}",
+      {{/each}}
+      ],
+    datasets: [
+      {
+        name: "Wind Speed", type: "line",
+        values: [
+    {{#each station.lastOpenWeatherWindTrendArray}}
+        "{{this}}",
+      {{/each}}
+      ]
+      },
+    ]
+  }
+  
+  const pressureData = {
+    labels: [
+    {{#each station.lastOpenWeatherLabelArray}}
+        "{{this}}",
+      {{/each}}
+      ],
+    datasets: [
+      {
+        name: "Pressure", type: "line",
+        values: [
+    {{#each station.lastOpenWeatherPressureTrendArray}}
+        "{{this}}",
+      {{/each}}
+      ],
+      },
+    ],
+    yMarkers: [ //this exists purely to center the graph line
+        {
+            label: '',
+            value: 0,
+            type: 'solid'
+        }
+      ],
+  }
+  
+  const tempChart = new frappe.Chart("#tempchart", {
+    title: "Temperature forecast for station {{station.location}}",
+    data: tempData,
+    type: 'line',
+    height: 500,
+  })
+  
+  const windChart = new frappe.Chart("#windchart", {
+    title: "Wind Speed forecast for station {{station.location}}",
+    data: windData,
+    type: 'line',
+    height: 500,
+  })
+  
+  const pressureChart = new frappe.Chart("#pressurechart", {
+    title: "Pressure forecast for station {{station.location}}",
+    data: pressureData,
+    type: 'line',
+    height: 500,
+    
+  })
+  
+</script>

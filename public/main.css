@@ -1,0 +1,72 @@
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.fa-sun,
+.fa-bolt {
+  color: #f2d072;
+}
+
+.fa-cloud-sun {
+  color: lightgrey;
+}
+
+.fa-cloud-sun-rain {
+  color: lightskyblue;
+}
+
+.fa-snowflake {
+  background-color: lightblue;
+  border-radius: 25%;
+  color: white;
+  padding: 1px;
+}
+
+.main-icon {
+  color: white;
+}
+
+.fa-cloud {
+  color: grey;
+}
+
+.fa-cloud-rain {
+  color: blue;
+}
+
+.fa-cloud-showers-heavy {
+  color: darkblue;
+}
+
+.sunny {
+  background-color: #f2d072;
+}
+
+.fa-compass,
+#addstation {
+  color: darkgreen;
+}
+
+.addcode {
+  color: black;
+}
+
+.addtemp {
+  color: red;
+}
+
+.addwind {
+  color: grey;
+}
+
+.adddirection {
+  color: darkgreen;
+}
+
+.addpressure {
+  color: purple;
+}
+
+#map {
+  height: 650px;
+}

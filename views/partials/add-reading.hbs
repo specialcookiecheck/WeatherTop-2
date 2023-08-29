@@ -1,0 +1,101 @@
+<section class="content box">
+  <div>
+    <form action="/station/{{station._id}}/addreading" method="POST">
+      <div class="columns">
+        <div class="column field">
+          <div class="control has-icons-left">
+            <div class="select is-rounded">
+              <select name="code" required>
+                <option disabled selected hidden value="">Weather Code</option>
+                <option value="100">100 - Clear</option>
+                <option value="200">200 - Partial Clouds</option>
+                <option value="300">300 - Cloudy</option>
+                <option value="400">400 - Light Showers</option>
+                <option value="500">500 - Heavy Showers</option>
+                <option value="600">600 - Rain</option>
+                <option value="700">700 - Snow</option>
+                <option value="800">800 - Thunder</option>
+              </select>
+              <span class="icon is-small is-left">
+                <i class="fas fa-barcode addcode"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="field column">
+          <div class="control has-icons-left">
+            <input
+              class="input is-rounded"
+              placeholder="Temperature (C)"
+              type="number"
+              name="temperature"
+              min="-75"
+              max="75"
+              step="0.5"
+              required
+            />
+            <span class="icon is-small is-left">
+              <i class="fas fa-temperature-half addtemp"></i>
+            </span>
+          </div>
+        </div>
+        <div class="field column">
+          <div class="control has-icons-left">
+            <input
+              class="input is-rounded"
+              placeholder="Wind speed (km/h)"
+              type="number"
+              name="windSpeed"
+              min="0"
+              max="600"
+              step="0.5"
+              required
+            />
+            <span class="icon is-small is-left">
+              <i class="fas fa-wind addwind"></i>
+            </span>
+          </div>
+        </div>
+        <div class="field column">
+          <div class="control has-icons-left">
+            <input
+              class="input is-rounded"
+              placeholder="Wind direction (0-360)"
+              type="number"
+              name="windDirection"
+              min="0"
+              max="360"
+              step="0.25"
+              required
+            />
+            <span class="icon is-small is-left">
+              <i class="fas fa-location-arrow adddirection"></i>
+            </span>
+          </div>
+        </div>
+        <div class="field column">
+          <div class="control has-icons-left">
+            <input
+              class="input is-rounded"
+              placeholder="Pressure (hPa)"
+              type="number"
+              name="pressure"
+              min="800"
+              max="1200"
+              step="1"
+              required
+            />
+            <span class="icon is-small is-left">
+              <i class="fas fa-layer-group addpressure"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="field mt-4">
+        <div class="control">
+          <button class="button is-link">Add Reading</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

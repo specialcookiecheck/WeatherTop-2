@@ -1,0 +1,35 @@
+{{> menu active="dashboard"}}
+
+<div class="content box">
+  <table class="table">
+    <thead class="title">
+      <tr class="sunny has-text-centered">
+        <th class="has-text-link">Location <i class="fas fa-location-crosshairs main-icon"></i></th>
+        <th class="has-text-link">Weather <i class="fa fa-cloud-sun main-icon"></i></th>
+        <th class="has-text-link">Temperature <i class="fas fa-temperature-high main-icon"></i></th>
+        <th class="has-text-link">Wind <i class="fa fa-wind main-icon"></i></th>
+        <th class="has-text-link">Pressure <i class="fa fa-layer-group main-icon"></i></th>
+      </tr>
+    </thead>
+    <tbody class="has-text-white has-background-link-dark">
+      
+      {{> list-stations}}
+    
+    </tbody>
+  </table>
+</div>
+
+<section class="content box">
+  <h2 class="subtitle">
+    Add a new Station
+  </h2>
+  
+  {{> add-station}}
+  
+</section>
+
+{{> map-overview}}
+
+
+
+

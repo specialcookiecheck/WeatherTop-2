@@ -1,0 +1,33 @@
+{{> menu active="account"}}
+
+<div class="content box">
+  <h1 class="title has-text-link-dark">Your details</h1>
+  <div>
+    <table class="table has-text-link-dark">
+      <tbody>
+        <tr>
+          <td><i class="fas fa-circle-user"></i> First name:</td>
+          <td></td>
+          <td>{{user.firstName}}</td>
+        </tr>
+        <tr>
+          <td><i class="fas fa-user"></i> Last name:</td>
+          <td></td>
+          <td>{{user.lastName}}</td>
+        </tr>
+        <tr>
+          <td><i class="fas fa-envelope"></i> Email:</td>
+          <td></td>
+          <td>{{user.email}}</td>
+        </tr>
+        <tr>
+          <td><i class="fas fa-user-secret"></i> Password:</td>
+          <td></td>
+          <td>*****</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{{> update-user }}

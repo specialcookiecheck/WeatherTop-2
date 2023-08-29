@@ -1,0 +1,32 @@
+{{#each stations}}
+
+<tr class="table-body-rows">
+  <td>
+    <div class="box title sunny column">
+      <h1 class="title is-4 has-text-link-dark has-text-centered">{{location}}</h1>
+      <p class="box subtitle is-6">
+        Latitude: {{latitude}}<br>
+        Longitude: {{longitude}}
+      </p>
+    </div>
+    <div class="subtitle is-6">
+      <span>
+        <a href="/station/{{_id}}" class="button is-small is-primary is-light has-text-primary">
+          <i class="fas fa-door-open"></i> Open Station
+        </a>
+      </span>
+      <span>
+        <a href="/dashboard/deleteStation/{{_id}}" class="button is-small is-danger is-light has-text-danger">
+          <i class="fas fa-explosion"></i> Destroy Station
+        </a>
+      </span>
+    </div>
+  </td>
+          
+  {{> dashboard-last-reading}}
+
+</tr>
+
+{{/each}}
+
+
