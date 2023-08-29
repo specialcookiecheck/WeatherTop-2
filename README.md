@@ -1,4 +1,4 @@
-# WeatherTop 2 v1.0
+# WeatherTop 2 v 2.2.1 (Release4 final version)
 
 References:
 - https://www.freecodecamp.org/news/javascript-get-current-date-todays-date-in-js/
